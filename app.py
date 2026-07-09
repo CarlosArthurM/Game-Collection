@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from pages.home import Home
+from components.sidebar import SideBar
 
 ctk.set_appearance_mode("Dark")
 
@@ -9,13 +10,23 @@ class App(ctk.CTk):
         self.geometry("1080x720")
         self.resizable(False, False)
         self.title("Game Collection")
-        self.columnconfigure(1, weight=1)
-        self.rowconfigure(0, weight=1)
+
+        self.sidebar = SideBar(self)
+        self.sidebar.pack(side="left", fill="y", padx=10, pady=10)
 
         self.home = Home(self)
-        self.home.grid(row=0, column=1, sticky="nsew")
+        self.pages = [self.home]
 
-        self.paginas = [self.home]
+        self.sidebar.btn_explore.configure(command=lambda: self.redirect_page(...))
+        self.sidebar.btn_list.configure(command=lambda: self.redirect_page(...))
+        self.sidebar.btn_config.configure(command=lambda: self.redirect_page(...))
+
+        self.redirect_page(self.home)
+
+    def redirect_page(self, page):
+        for p in self.pages:
+            p.pack_forget()
+        page.pack(fill="both", expand=True, padx=(0,10), pady=10)
 
 app = App()
 app.mainloop()
