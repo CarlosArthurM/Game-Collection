@@ -8,7 +8,7 @@ ctk.set_appearance_mode("Dark")
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("1080x720")
+        self.geometry("1120x720")
         self.resizable(False, False)
         self.title("Game Collection")
 
