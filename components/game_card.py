@@ -17,7 +17,7 @@ class GameCard(ctk.CTkFrame):
         platforms = ", ".join([p["name"] for p in game.get("platforms", [])])
         ctk.CTkLabel(self, text=platforms, font=("Arial", 10), text_color="#7777AA", wraplength=200, justify="left").grid(row=2, column=0, padx=12, pady=(0, 6), sticky="w")
 
-        ctk.CTkButton(self, text="see more...", font=("Arial", 12), fg_color="#50007E", hover_color="#370057", command= lambda : show_game_details(game)).grid(row=4, column=0, padx=10, pady=(5,10), sticky="ew")
+        ctk.CTkButton(self, text="see details...", font=("Arial", 12), fg_color="#50007E", hover_color="#370057", command= lambda : show_game_details(game)).grid(row=4, column=0, padx=10, pady=(5,10), sticky="ew")
 
         self._get_game_cover(game)
 
