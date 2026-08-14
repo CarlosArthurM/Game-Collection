@@ -6,7 +6,7 @@ import threading
 
 class GameCard(ctk.CTkFrame):
     def __init__(self, parent, game, show_game_details):
-        super().__init__(parent, corner_radius=10)
+        super().__init__(parent, corner_radius=10, fg_color="#1A1A2E")
         self.columnconfigure(0, weight=1)
 
         self.cover_label = ctk.CTkLabel(self, text="Loading...", width=200, height=120)
@@ -23,11 +23,7 @@ class GameCard(ctk.CTkFrame):
 
     def _get_game_cover(self,game):
         if game.get("cover"):
-            threading.Thread(
-                target=self._load_cover,
-                args=(game["cover"],),
-                daemon=True
-            ).start()
+            threading.Thread( target=self._load_cover,args=(game["cover"],),daemon=True).start()
 
     def _load_cover(self, url):
         try:
@@ -36,4 +32,4 @@ class GameCard(ctk.CTkFrame):
             ctk_img = ctk.CTkImage(img, size=(250, 200))
             self.after(0, lambda : self.cover_label.configure(image=ctk_img, text=""))
         except Exception:
-            self.after(0, lambda : self.cover_label.configure(text="without a cover"))
+            self.after(0, lambda : self.cover_label.configure(text="No cover"))
