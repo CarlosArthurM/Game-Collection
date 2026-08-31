@@ -7,8 +7,7 @@ import requests
 from config import ACCESS_TOKEN, CLIENT_ID, BASE_URL
 from utils.utils import destroy_widgets
 from components.game_details import GameDetails
-
-COLUMNS = 3
+from config import COLUMNS
 
 class SearchPage(ctk.CTkFrame):
     def __init__(self, parent):
