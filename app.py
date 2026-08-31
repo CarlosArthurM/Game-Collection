@@ -1,7 +1,9 @@
 import customtkinter as ctk
 from pages.home import Home
 from pages.search_page import SearchPage
+from pages.list_page import ListPage
 from components.sidebar import SideBar
+
 
 ctk.set_appearance_mode("Dark")
 
@@ -17,11 +19,11 @@ class App(ctk.CTk):
 
         self.home = Home(self)
         self.search_page = SearchPage(self)
-        self.pages = [self.home, self.search_page]
+        self.list_page = ListPage(self)
+        self.pages = [self.home, self.search_page, self.list_page]
 
         self.sidebar.btn_explore.configure(command=lambda: self.redirect_page(self.search_page))
-        self.sidebar.btn_list.configure(command=lambda: self.redirect_page(...))
-        self.sidebar.btn_config.configure(command=lambda: self.redirect_page(...))
+        self.sidebar.btn_list.configure(command=lambda: self.redirect_page(self.list_page))
 
         self.redirect_page(self.home)
 
