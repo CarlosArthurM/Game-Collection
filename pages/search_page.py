@@ -138,6 +138,7 @@ class SearchPage(ctk.CTkFrame):
         self.frame_pagination.pack(pady=(0, 10))
 
         self.btn_prev.configure(state="disabled" if self.current_page == 0 else "normal")
+        self.btn_next.configure(state="disabled" if len(result) < 40 else "normal")
 
     def show_game_details(self, game):
         self.frame_top.pack_forget()
