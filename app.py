@@ -1,4 +1,6 @@
 import customtkinter as ctk
+
+from database.connection import create_tables
 from pages.home import Home
 from pages.search_page import SearchPage
 from pages.list_page import ListPage
@@ -13,6 +15,8 @@ class App(ctk.CTk):
         self.geometry("1120x720")
         self.resizable(False, False)
         self.title("Game Collection")
+
+        create_tables()
 
         self.sidebar = SideBar(self)
         self.sidebar.pack(side="left", fill="y", padx=10, pady=10)

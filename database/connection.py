@@ -69,6 +69,3 @@ def create_tables():
 
     except Error as er:
         raise er
-
-
-create_tables()
