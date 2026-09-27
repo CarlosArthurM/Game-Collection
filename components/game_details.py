@@ -1,10 +1,14 @@
 import threading
+
 import customtkinter as ctk
 import requests
 from PIL import Image
 from io import BytesIO
 from config import BASE_URL, CLIENT_ID, ACCESS_TOKEN
-from deep_translator import GoogleTranslator
+from .list_selector_dialog import ListSelectorDialog
+from database.game_list import add_game_to_list
+from database.games import insert_game
+from database.games import get_game_by_igdb_id
 
 class GameDetails(ctk.CTkFrame):
     def __init__(self, parent, game,on_back):
@@ -20,7 +24,7 @@ class GameDetails(ctk.CTkFrame):
         self.cover_label = ctk.CTkLabel(self.frame_left, text="Loading...", width=230, height=320)
         self.cover_label.pack(padx=10, pady=(10, 5))
 
-        ctk.CTkButton(self.frame_left, text="+ Add to list",fg_color="#50007E", hover_color="#370057").pack(padx=10, pady=5, fill="x")
+        ctk.CTkButton(self.frame_left, text="+ Add to list",fg_color="#50007E", hover_color="#370057", command=lambda: self._open_add_to_list(game)).pack(padx=10, pady=5, fill="x")
 
         # Frame right
         self.frame_right = ctk.CTkFrame(self, fg_color="transparent")
@@ -73,16 +77,9 @@ class GameDetails(ctk.CTkFrame):
         if game.get("cover"):
             threading.Thread(target=self._load_cover, args=(game["cover"],), daemon=True).start()
 
-
     def _back(self):
         self.pack_forget()
         self.on_back()
-
-    def _translate(self, text: str) -> str:
-        try:
-            return GoogleTranslator(source="en", target="pt").translate(text)
-        except Exception:
-            return text
 
     def _search_thread(self, id_game):
         response = requests.post(
@@ -99,9 +96,6 @@ class GameDetails(ctk.CTkFrame):
 
         game = response.json()[0]
 
-        if game.get("summary"):
-            game["summary"] = self._translate(game["summary"])
-
         self.after(0, lambda: self._show_result(game))
 
     def _show_result(self, game):
@@ -110,7 +104,6 @@ class GameDetails(ctk.CTkFrame):
         self.label_platforms.configure(text=", ".join([p["name"] for p in game.get("platforms", [])]))
         self.label_genres.configure(text=", ".join([g["name"] for g in game.get("genres", [])]))
         self.label_summary.configure(text=game.get("summary", "No summary available."))
-
 
     def _load_cover(self, url):
         try:
@@ -124,3 +117,20 @@ class GameDetails(ctk.CTkFrame):
 
     def _is_valid_response(self, response) -> bool:
         return response.status_code == 200 and bool(response.json())
+
+    def _open_add_to_list(self,game):
+        ListSelectorDialog(self, game, self._add_to_list)
+
+    def _add_to_list(self, game, list_id):
+        db_game = get_game_by_igdb_id(game["igdb_ID"])
+
+        if db_game:
+            game_id = db_game[0]
+        else:
+            game_id = insert_game(
+                game["igdb_ID"],
+                game["name"],
+                game.get("cover", "")
+            )
+
+        add_game_to_list(game_id, list_id)
