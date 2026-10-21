@@ -5,8 +5,9 @@ from pages.home import Home
 from pages.search_page import SearchPage
 from pages.list_page import ListPage
 from components.sidebar import SideBar
+from token_manager import ensure_token
 
-
+token = ensure_token()
 ctk.set_appearance_mode("Dark")
 
 class App(ctk.CTk):
