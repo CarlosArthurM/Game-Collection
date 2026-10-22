@@ -11,3 +11,7 @@ def add_list(name):
 def remove_list(list_id):
     with create_connection() as con:
         con.execute("DELETE FROM list_type WHERE id = ?", (list_id,))
+
+def rename_list(list_id, new_name):
+    with create_connection() as con:
+        con.execute("UPDATE list_type SET name = ? WHERE id = ?",(new_name, list_id))
