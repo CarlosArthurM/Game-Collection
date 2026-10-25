@@ -6,7 +6,7 @@ from pages.search_page import SearchPage
 from pages.list_page import ListPage
 from components.sidebar import SideBar
 from token_manager import ensure_token
-from components.ListManagerDialog import ListManagerDialog
+from components.list_manager_dialog import ListManagerDialog
 
 token = ensure_token()
 ctk.set_appearance_mode("Dark")

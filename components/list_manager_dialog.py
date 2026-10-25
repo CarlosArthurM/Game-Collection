@@ -1,7 +1,6 @@
 import customtkinter as ctk
 from database.lists import get_all_lists, add_list, remove_list, rename_list
 
-
 class ListManagerDialog(ctk.CTkToplevel):
     def __init__(self, parent, on_close):
         super().__init__(parent)
