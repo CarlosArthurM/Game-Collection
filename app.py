@@ -6,6 +6,7 @@ from pages.search_page import SearchPage
 from pages.list_page import ListPage
 from components.sidebar import SideBar
 from token_manager import ensure_token
+from components.list_manager_dialog import ListManagerDialog
 
 token = ensure_token()
 ctk.set_appearance_mode("Dark")
@@ -28,6 +29,7 @@ class App(ctk.CTk):
         self.pages = [self.home, self.search_page, self.list_page]
 
         self.sidebar.btn_explore.configure(command=lambda: self.redirect_page(self.search_page))
+        self.sidebar.btn_ManageList.configure(command=lambda: ListManagerDialog(self, on_close=self.list_page.render))
         self.sidebar.btn_list.configure(command=lambda: self.redirect_page(self.list_page))
 
         self.redirect_page(self.home)
