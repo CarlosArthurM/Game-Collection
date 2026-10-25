@@ -15,7 +15,10 @@ class SideBar(ctk.CTkFrame):
         self.btn_list = ButtonSideBar(self, text="My Lists")
         self.btn_list.pack(padx=5, pady=5, fill="x")
 
-    
+        self.btn_ManageList = ButtonSideBar(self, text="Manage Lists")
+        self.btn_ManageList.pack(padx=5, pady=5, fill="x")
+
+
     def logout(self):
         self.winfo_toplevel().destroy()
 
